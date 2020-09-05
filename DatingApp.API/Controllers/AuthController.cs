@@ -33,7 +33,7 @@ namespace DatingApp.API.Controllers
             if (await _repo.UserExists(userForRegisterDto.UserName))
                 return BadRequest("UserName already exists");
 
-            var userToCreate = new User { Name = userForRegisterDto.UserName };
+            var userToCreate = new User { UserName = userForRegisterDto.UserName };
             var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
 
             return StatusCode(201);
@@ -48,7 +48,7 @@ namespace DatingApp.API.Controllers
 
             var Claims = new[]{
                 new Claim(ClaimTypes.NameIdentifier,userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name,userFromRepo.Name),
+                new Claim(ClaimTypes.Name,userFromRepo.UserName),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
