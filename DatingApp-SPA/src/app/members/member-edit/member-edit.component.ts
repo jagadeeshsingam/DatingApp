@@ -15,6 +15,7 @@ import { EventEmitter } from 'events';
 })
 export class MemberEditComponent implements OnInit {
   user: User;
+  photoUrl: string;
   @ViewChild('editForm', { static: true }) editForm: NgForm;
   // For browser interaction
   @HostListener('window:beforeunload', ['$event'])
@@ -34,6 +35,9 @@ export class MemberEditComponent implements OnInit {
     this.route.data.subscribe((data) => {
       this.user = data.user;
     });
+    this.authService.currentPhotoUrl.subscribe(
+      (photo) => (this.photoUrl = photo)
+    );
   }
 
   updateUser() {
